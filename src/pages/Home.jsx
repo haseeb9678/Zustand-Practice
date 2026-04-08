@@ -14,6 +14,16 @@ const Home = () => {
             title: "Cart",
             path: "/cart"
         },
+        {
+            id: 2,
+            title: "Hook Form",
+            path: "/form"
+        },
+        {
+            id: 2,
+            title: "Hook Zord Form",
+            path: "/zord-form"
+        },
 
     ]
     return (

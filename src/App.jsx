@@ -4,6 +4,8 @@ import RootLayout from './layouts/RootLayout'
 import Home from './pages/Home'
 import Products from './pages/Products'
 import Cart from './pages/Cart'
+import Form from './pages/Form'
+import ZordForm from './pages/ZordForm'
 
 const App = () => {
   const router = createBrowserRouter(
@@ -12,6 +14,8 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path='products' element={<Products />} />
         <Route path='cart' element={<Cart />} />
+        <Route path='form' element={<Form />} />
+        <Route path='zord-form' element={<ZordForm />} />
       </Route>
     )
   )
