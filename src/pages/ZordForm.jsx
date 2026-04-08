@@ -1,12 +1,45 @@
-import React from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { planSchema, userSchema } from '../schemas/userSchema'
+import z from 'zod'
 
 const ZordForm = () => {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors } } = useForm(
+        { resolver: zodResolver(userSchema) }
+    )
 
     const onSubmit = (data) => {
         console.log(data);
     }
+
+    useEffect(() => {
+
+        const parsePrac = () => {
+            try {
+                const plan = planSchema.parse({ name: "si", price: 4 })
+                console.log(plan);
+
+            } catch (error) {
+                console.log("parse issues", error.issues);
+
+            }
+        }
+        const safeParsePrac = () => {
+            const result = planSchema.safeParse({ name: "s", price: 0 })
+
+            if (result.success) {
+                console.log(result.data);
+            } else {
+                console.log(result.error.flatten());
+
+
+            }
+
+        }
+        safeParsePrac()
+
+    }, [])
 
     return (
         <div className='flex flex-col gap-3'>
@@ -18,14 +51,7 @@ const ZordForm = () => {
                 <div className='flex flex-col gap-1'>
                     <input
                         className='h-10 border border-gray-300 rounded-md p-2 outline-none'
-                        {...register("firstName", {
-                            required: "First name is required",
-                            minLength: {
-                                value: 3,
-                                message: "Minimum 3 characters required"
-                            }
-
-                        })}
+                        {...register("firstName")}
                         type='text'
 
                         placeholder='Enter First Name'
@@ -37,14 +63,7 @@ const ZordForm = () => {
                 <div className='flex flex-col gap-1'>
                     <input
                         className='h-10 border border-gray-300 rounded-md p-2 outline-none'
-                        {...register("lastName", {
-                            required: "Last name is required",
-                            minLength: {
-                                value: 3,
-                                message: "Minimum 3 characters required"
-                            }
-
-                        })}
+                        {...register("lastName")}
                         type='text'
 
                         placeholder='Enter Last Name'
@@ -56,13 +75,7 @@ const ZordForm = () => {
                 <div className='flex flex-col gap-1'>
                     <input
                         className='h-10 border border-gray-300 rounded-md p-2 outline-none'
-                        {...register("email", {
-                            required: "Email is required",
-                            pattern: {
-                                value: /^\S+@\S+$/i,
-                                message: "Invalid email format"
-                            }
-                        })}
+                        {...register("email")}
                         type='email'
 
                         placeholder='Enter your email'
@@ -74,14 +87,7 @@ const ZordForm = () => {
                 <div className='flex flex-col gap-1'>
                     <input
                         className='h-10 border border-gray-300 rounded-md p-2 outline-none'
-                        {...register("age", {
-                            required: "Age is required",
-                            min: {
-                                value: 1,
-                                message: "Age must be greater than 0"
-                            }
-
-                        })}
+                        {...register("age")}
                         type='number'
 
                         placeholder='Enter your age'
@@ -93,14 +99,7 @@ const ZordForm = () => {
                 <div className='flex flex-col gap-1'>
                     <input
                         className='h-10 border border-gray-300 rounded-md p-2 outline-none'
-                        {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 8,
-                                message: "Minimum 8 characters required"
-                            }
-
-                        })}
+                        {...register("password")}
                         type='password'
 
                         placeholder='Enter password'
@@ -112,15 +111,7 @@ const ZordForm = () => {
                 <div className='flex flex-col gap-1'>
                     <input
                         className='h-10 border border-gray-300 rounded-md p-2 outline-none'
-                        {...register("confirmPassword", {
-                            required: "Please confirm password",
-                            minLength: {
-                                value: 8,
-                                message: "Minimum 8 characters required"
-                            },
-                            validate: (value) => value === watch("password") || "Password do not matched"
-
-                        })}
+                        {...register("confirmPassword")}
                         type='password'
 
                         placeholder='Cofirm Password'
